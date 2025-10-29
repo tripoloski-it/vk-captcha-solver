@@ -1,6 +1,6 @@
 {
   "name": "@tripoloski/vk-captcha-solver",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "Tripoloski",
   "description": "VK Captcha Solver",
   "main": "./dist/cjs/index.js",
