@@ -4,10 +4,29 @@
 
 ---
 
+## Установка
+```bash
+# YARN
+yarn add @tripoloski/vk-captcha-solver
+```
+```bash
+# PNPM
+pnpm add @tripoloski/vk-captcha-solver
+```
+```bash
+# NPM
+npm install @tripoloski/vk-captcha-solver
+```
+
+
+
+
+---
+
 ## Пример использования
 
 ```ts
-import { CaptchaSolver } from 'vk-captcha-solver';
+import { CaptchaSolver } from '@tripoloski/vk-captcha-solver';
 
 const solver = new CaptchaSolver();
 
