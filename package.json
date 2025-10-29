@@ -1,5 +1,5 @@
 {
-  "name": "vk-captcha-solver",
+  "name": "@tripoloski/vk-captcha-solver",
   "version": "0.0.1",
   "author": "Tripoloski",
   "description": "VK Captcha Solver",
