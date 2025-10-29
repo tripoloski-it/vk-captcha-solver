@@ -170,5 +170,3 @@ export class API {
     return data.response;
   }
 }
-
-new API().endSession({ domain: '', session_token: '' }).then(console.log).catch(console.log);
