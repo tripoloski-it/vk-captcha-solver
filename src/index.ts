@@ -27,7 +27,7 @@ export class CaptchaSolver {
     const settings = await this.api.getSettings(initial.data);
     const hash = await this.generatePoW(initial.powInput, initial.difficulty);
     const rtt = getRandomInt(40, 60);
-    const downlink = getRandomFloat(3, 5);
+    const downlink = getRandomFloat(3, 10);
     const device = generateFakeDesktopEnvironment();
 
     let checkParams: ICaptchaCheckParams = {
@@ -40,8 +40,9 @@ export class CaptchaSolver {
       gyroscope: [],
       motion: [],
       taps: [],
-      connectionRtt: Array.from({ length: 5 }, () => rtt),
-      connectionDownlink: Array.from({ length: 5 }, () => downlink),
+      connectionRtt:
+        Math.random() >= 0.5 ? [] : Array.from({ length: getRandomInt(5, 10) }, () => rtt),
+      connectionDownlink: Array.from({ length: getRandomInt(5, 10) }, () => downlink),
       debug_info: '8b9092c2b38acd31ab388f70d97d82f8dccf50233aa8dfeac2cbd1fb16c08474',
       browser_fp: generateFakeFingerprintFromEnvironment(device),
     };
