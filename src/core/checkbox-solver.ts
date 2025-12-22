@@ -1,5 +1,5 @@
 import { ICaptchaSensorData, ICaptchaSettings, IMouseTraceParams } from '../types';
-import { getRandomNumber } from '../utils';
+import { getRandomInt } from '../utils';
 
 export class CheckboxCaptchaSolver {
   private maxSensorsDataSizeKb = 900;
@@ -31,15 +31,15 @@ export class CheckboxCaptchaSolver {
 
   private generateMouseTrace(params: IMouseTraceParams = {}): ICaptchaSensorData[] {
     const points: ICaptchaSensorData[] = [];
-    let { from, to, intervalMs = 500, durationMs = getRandomNumber(2000, 15_000) } = params;
+    let { from, to, intervalMs = 500, durationMs = getRandomInt(2000, 15_000) } = params;
 
     from ??= {
-      x: getRandomNumber(1080 / 2, 1080),
-      y: getRandomNumber(720 / 2, 720),
+      x: getRandomInt(1080 / 2, 1080),
+      y: getRandomInt(720 / 2, 720),
     };
     to ??= {
-      x: getRandomNumber(from.x - 300, from.x + 300),
-      y: getRandomNumber(from.y - 300, from.y + 300),
+      x: getRandomInt(from.x - 300, from.x + 300),
+      y: getRandomInt(from.y - 300, from.y + 300),
     };
 
     const totalSteps = Math.floor(durationMs / intervalMs);
