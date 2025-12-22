@@ -49,6 +49,10 @@ export type ICaptchaCheckParams = Pick<ICaptchaInitialData, 'domain' | 'session_
   Record<ICaptchaSettings['bridge_sensors_list'][number], ICaptchaSensorData[]> & {
     readonly hash: string;
     readonly answer?: string;
+    readonly debug_info: string;
+    readonly connectionDownlink: number[];
+    readonly connectionRtt: number[];
+    readonly browser_fp: string;
   };
 
 export interface ICaptchaCheck extends ICaptchaBaseResponse {

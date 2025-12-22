@@ -9,6 +9,7 @@ import {
   ICaptchaInitialParams,
   ICaptchaInitialParamsResponse,
   ICaptchaSettings,
+  IFakeBrowserEnvironment,
 } from '../types';
 import { safeJSONParse } from '../utils';
 import { APIError, HTTPError, VKCaptchaSolverError } from './errors';
@@ -98,11 +99,15 @@ export class API {
   }
   /** Отправляет событие "Компонент готов/загружен" */
   public async componentDone(
-    params: Pick<ICaptchaInitialData, 'session_token' | 'domain'>,
+    params: Pick<ICaptchaInitialData, 'session_token' | 'domain'> & {
+      device: IFakeBrowserEnvironment;
+      browser_fp: string;
+    },
   ): Promise<void> {
     await this.call('captchaNotRobot.componentDone', {
       session_token: params.session_token,
       domain: params.domain,
+      device: params.device,
     });
   }
   /** Отправляет на проверку данные решенной капчи */
@@ -119,7 +124,10 @@ export class API {
   }
 
   private async call<T extends object>(method: string, params: Record<string, any>): Promise<T> {
-    const requestParams: Record<string, any> = { ...params, v: this.version };
+    const requestParams: Record<string, any> = {
+      ...params,
+      v: this.version,
+    };
     const serializedEntries: Array<[string, string]> = Object.entries(requestParams).map(
       ([key, value]) => {
         if (value == null) return [key, ''];
@@ -139,6 +147,7 @@ export class API {
         ...this.headers,
       },
       body,
+      credentials: 'include',
     });
 
     if (!fetchResponse.ok) {
