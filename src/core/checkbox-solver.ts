@@ -30,9 +30,8 @@ export class CheckboxCaptchaSolver {
   }
 
   private generateMouseTrace(params: IMouseTraceParams = {}): ICaptchaSensorData[] {
-    const points: ICaptchaSensorData[] = [];
-    let { from, to, intervalMs = 500, durationMs = getRandomInt(2000, 15_000) } = params;
-
+    let { from, to, intervalMs = 500, durationMs = getRandomInt(2_000, 10_000) } = params;
+    
     from ??= {
       x: getRandomInt(1080 / 2, 1080),
       y: getRandomInt(720 / 2, 720),
@@ -41,7 +40,8 @@ export class CheckboxCaptchaSolver {
       x: getRandomInt(from.x - 300, from.x + 300),
       y: getRandomInt(from.y - 300, from.y + 300),
     };
-
+    
+    const points: ICaptchaSensorData[] = [];
     const totalSteps = Math.floor(durationMs / intervalMs);
     const dx = to.x - from.x;
     const dy = to.y - from.y;
