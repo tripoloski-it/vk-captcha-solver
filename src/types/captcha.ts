@@ -3,6 +3,7 @@ export type ICaptchaBaseResponse = { status: 'OK' | 'ERROR' };
 export type ICaptchaInitialParams = ICaptchaInitialParamsResponse & {
   readonly difficulty: number;
   readonly powInput: string;
+  readonly captchaScriptUrl: string;
 };
 
 export interface ICaptchaInitialParamsResponse {

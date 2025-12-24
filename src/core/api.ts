@@ -62,11 +62,32 @@ export class API {
       throw new VKCaptchaSolverError('Invalid window.init data');
     }
 
+    const [, , captchaScriptUrl] = html.match(/src=("|')((.)+not_robot_captcha\.js)/) || [];
+    if (!captchaScriptUrl) {
+      throw new VKCaptchaSolverError(
+        `Missing required value: captcha script url not found in page content.`,
+      );
+    }
+
     return {
+      captchaScriptUrl,
       data: initialParams.data,
       difficulty,
       powInput,
     };
+  }
+  /** Получаем `debug_info` строку */
+  public async getDebugInfoValue(captchaScriptUrl: string) {
+    const response = await fetch(captchaScriptUrl);
+    // example: debug_info:"721312d314dbdb3e2849b970716a1d2c7ba15960fcc2848f6645da2ec999c222"
+    const script = await response.text();
+    const [, value] = script.match(/debug_info:"([^"]*)"/) || [];
+    if (!value) {
+      throw new VKCaptchaSolverError(
+        `Missing required value: debug_info not found in script content.`,
+      );
+    }
+    return value;
   }
   /** Получает настройки капчи */
   public async getSettings(

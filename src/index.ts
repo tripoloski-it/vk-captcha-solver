@@ -19,6 +19,7 @@ export class CaptchaSolver {
 
   public async solve(redirectUri: string) {
     const initial = await this.api.getInitialParams(redirectUri);
+    const debugInfo = await this.api.getDebugInfoValue(initial.captchaScriptUrl);
 
     if (!this.knownCaptchaTypes.includes(initial.data.show_captcha_type)) {
       throw new VKCaptchaSolverError('Unknown captcha type.');
@@ -43,7 +44,7 @@ export class CaptchaSolver {
       connectionRtt:
         Math.random() >= 0.5 ? [] : Array.from({ length: getRandomInt(5, 10) }, () => rtt),
       connectionDownlink: Array.from({ length: getRandomInt(5, 10) }, () => downlink),
-      debug_info: '8b9092c2b38acd31ab388f70d97d82f8dccf50233aa8dfeac2cbd1fb16c08474',
+      debug_info: debugInfo,
       browser_fp: generateFakeFingerprintFromEnvironment(device),
     };
     if (initial.data.show_captcha_type === 'checkbox') {
@@ -54,7 +55,9 @@ export class CaptchaSolver {
       });
 
       const solver = new CheckboxCaptchaSolver();
-      const params = await solver.solve(settings.bridge_sensors_list);
+      const params = await solver.solve(settings.bridge_sensors_list, {
+        intervalMs: settings.sensors_delay,
+      });
       checkParams = { ...checkParams, ...params };
     } else {
       const content = await this.api.getContent(initial.data);
